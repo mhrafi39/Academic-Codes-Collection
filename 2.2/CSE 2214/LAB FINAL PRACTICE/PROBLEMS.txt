@@ -1,0 +1,18 @@
+1. Write an assembly language program to take input a
+character from keyboard. If it is a letter, display it
+on the next line. If it is a digit, check whether it is 
+even or odd. For an even digit, subtract 1 from it and 
+display it on the next line. For an odd digit, add 1
+to it and display it on the next line.
+
+2. write an assembly language program to calculate/ print
+the sum of following series, where n is user input
+1+6+11+16+21+...n or 1 + 6 + 11 +16 + 21 +... nth term
+
+3. Array - min max avg, 2nd min/max
+
+4. shift rotate, bit manipulation hamming distance (bit count)
+
+5. stack parenthesis balance
+
+6. Multiplication / division -> expression

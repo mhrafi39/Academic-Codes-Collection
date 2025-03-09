@@ -1,0 +1,63 @@
+.MODEL SMALL
+.STACK 100H
+.DATA 
+LT1 DB "ENTER FIRST LETTER: $" 
+LT2 DB 0AH,0DH,"ENTER 2ND LETTER: $"
+RESULT DB 0AH,0DH,"ALPHABETIC ORDER: $"
+.CODE
+MAIN PROC 
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    MOV AH,9
+    LEA DX,LT1
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV BL,AL
+    
+    MOV AH,9
+    LEA DX,LT2
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV CL,AL
+    
+    CMP BL,CL
+    JGE GREATER
+    
+    LESS:
+    MOV AH,9
+    LEA DX,RESULT
+    INT 21H
+    MOV AH,2
+    MOV DL,BL
+    INT 21H
+    MOV DL,','
+    INT 21H
+    MOV DL,CL
+    INT 21H
+    JMP EXIT
+    
+    GREATER:
+    MOV AH,9
+    LEA DX,RESULT
+    INT 21H
+    MOV AH,2
+    MOV DL,CL
+    INT 21H
+    MOV DL,','
+    INT 21H
+    MOV DL,BL
+    INT 21H
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    
+    
+    MAIN ENDP
+END MAIN
