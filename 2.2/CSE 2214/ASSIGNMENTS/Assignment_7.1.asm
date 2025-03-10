@@ -1,0 +1,31 @@
+.MODEL SMALL
+.STACK 100H
+.DATA 
+PROMPT DB "ENTER A LOWER CASE LETTER: $"
+UP DB 0AH,0DH,"UPPER CASE LETTER: "
+LETTER DB ?,'$'
+.CODE
+MAIN PROC
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    MOV AH,9
+    LEA DX,PROMPT
+    INT 21H 
+    
+    MOV AH,1
+    INT 21H
+    MOV LETTER,AL
+    
+    AND LETTER,5FH
+    
+    MOV AH,9
+    LEA DX,UP
+    INT 21H
+    
+    MOV AH,4CH
+    INT 21H
+    
+    MAIN ENDP
+END MAIN

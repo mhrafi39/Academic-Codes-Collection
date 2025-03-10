@@ -1,0 +1,73 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+MSG DB "ENTER A LETTER: $"
+UP DB 0AH,0DH,"UPPERCASE$" 
+LO DB 0AH,0DH, "LOWERCASE$"
+CON DB 0AH,0DH, "CONVERTED LETTER:$"
+CHAR DB ?
+CC DB ?
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    MOV AH,9
+    LEA DX,MSG
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    
+    MOV CHAR,AL 
+    
+    CALL CHECK 
+    CALL CONVERT
+    
+    MOV AH,4CH
+    INT 21H
+    
+    MAIN ENDP
+CHECK PROC 
+    MOV BL,CHAR
+    CMP BL,'A'
+    JB NOT_UPPER
+    CMP BL,'Z'
+    JA NOT_UPPER
+    MOV AH,9
+    LEA DX,UP
+    INT 21H
+    RET
+    
+    NOT_UPPER:
+    CMP BL,'a'
+    JB NOT_LOWER
+    CMP BL,'z'
+    JA NOT_LOWER
+    MOV AH,9
+    LEA DX,LO
+    INT 21H 
+    RET
+    
+    NOT_LOWER:
+    RET
+    
+    CHECK ENDP  
+
+CONVERT PROC
+    MOV BL,CHAR 
+    XOR BL,20H
+   
+    MOV AH,9
+    LEA DX,CON
+    INT 21H
+    MOV DL,BL
+    MOV AH,2
+    INT 21H
+    RET
+    CONVERT ENDP 
+
+END MAIN
+    
+
+    

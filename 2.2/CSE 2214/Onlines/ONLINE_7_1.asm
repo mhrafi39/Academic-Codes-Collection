@@ -1,0 +1,71 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    MSG1 DB "Enter an integer: $"
+    MSG2 DB 0AH, 0DH, "OUTPUT: $"
+    MAX DB 0
+    LAST DB -1
+    CURR DB 0
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX
+
+   
+    MOV AH, 9
+    LEA DX, MSG1
+    INT 21H
+
+    
+    MOV AH, 1
+    INT 21H
+    SUB AL, 30H
+    MOV BL, AL
+    
+   
+    MOV MAX, 0
+    MOV LAST, -1
+    MOV CURR, 0
+
+    MOV CX, 8
+
+PROCESS_BITS:
+    SHR BL, 1
+    JC BIT_ONE
+    JMP NEXT_BIT
+
+BIT_ONE:
+    CMP LAST, -1
+    JE UPDATE_LAST
+    MOV AL, CURR
+    SUB AL, LAST
+    CMP AL, MAX
+    JBE SKIP_UPDATE
+    MOV MAX, AL
+
+SKIP_UPDATE:
+    MOV BH, CURR
+    MOV LAST, BH
+
+UPDATE_LAST:
+    MOV BH, CURR
+    MOV LAST, BH
+
+NEXT_BIT:
+    INC CURR
+    LOOP PROCESS_BITS
+
+    
+    MOV AH, 9
+    LEA DX, MSG2
+    INT 21H
+    MOV DL, MAX
+    ADD DL, 30H
+    MOV AH, 2
+    INT 21H
+
+  
+    MOV AH, 4Ch
+    INT 21H
+MAIN ENDP
+END MAIN
